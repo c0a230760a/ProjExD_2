@@ -4,7 +4,6 @@ import random
 import sys
 import time
 
-
 WIDTH, HEIGHT = 1600, 900
 key_dct = {pg.K_UP:(0, -5),
            pg.K_DOWN:(0, +5),
