@@ -11,6 +11,20 @@ key_dct = {pg.K_UP:(0, -5),
            pg.K_LEFT:(-5, 0),
            pg.K_RIGHT:(+5, 0)
            }
+
+#演習1
+# 移動した大きさ:xの角度???
+kk_dct = {(0, -5): 90,
+          (+5, -5): 45,
+          (+5, 0): 0,
+          (+5, +5):-45,
+          (0, +5):-90,
+          (-5, +5): -45,
+          (-5, 0): 0,
+          (-5, -5): 45
+          }
+
+
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -27,29 +41,13 @@ def check_bound(obj_rct:pg.Rect) -> tuple[bool, bool]: # boolはTrueFalseをあ�
         tate = False
     return yoko, tate
 
-"""
-def gameover():
-    screen = pg.display.set_mode((WIDTH, HEIGHT))
-    big_rct = pg.Surface((WIDTH,HEIGHT))
-    pg.draw.rect(big_rct, (0, 0, 0), WIDTH, HEIGHT)
-    big_rct.set_alpha(127)
-    gg = pg.font.Font(None, 100)
-    txt = gg.render("GAME OVER", True, (255, 255, 255))
-    kk_cry = pg.image.load("fig/8.png")
-    screen.blit(big_rct[0, 0])
-    screen.blit(txt, [WIDTH / 2, HEIGHT / 2])
-    screen.blit(kk_cry, [300, HEIGHT / 2])
-    screen.blit(kk_cry[1300, HEIGHT / 2])
-    if clock <= 5:
-        return
-    """
-
 
 def main():
+    x = 0
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("fig/pg_bg.jpg")    
-    kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 2.0)
+    kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), x, 2.0)
     kk_rct = kk_img.get_rect()
     kk_rct.center = 900, 400
     enn = pg.Surface((20, 20)) #　一辺が20のからのサーフェイスを作る
@@ -58,6 +56,13 @@ def main():
     enn_rct = enn.get_rect()
     enn_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     vx, vy = +5, +5
+
+#演習1
+    kk_img1 = pg.transform.flip(pg.image.load("fig/3.png"),True, False)
+    kk_img1 = pg.transform.rotozoom(kk_img1, x, 2.0)
+    kk_rct1 = kk_img1.get_rect()
+    kk_rct1.center = 900, 400
+
 #演習3
     big_r = pg.Surface((WIDTH,HEIGHT))
     pg.draw.rect(big_r, (0, 0, 0), pg.Rect(0, 0, WIDTH, HEIGHT))
@@ -88,8 +93,6 @@ def main():
             time.sleep(5)
             return    
             
-        
-            
         screen.blit(bg_img, [0, 0]) 
 
         key_lst = pg.key.get_pressed()
@@ -98,10 +101,12 @@ def main():
             if key_lst[k]:
                 sum_mv[0] += v[0]
                 sum_mv[1] += v[1]
-        kk_rct.move_ip(sum_mv) # 重要
+        kk_rct.move_ip(sum_mv) # 重要      
+
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)
+        #screen.blit(kk_img1, kk_rct1)
         enn_rct.move_ip(vx, vy)
         yoko, tate = check_bound(enn_rct)
         if not yoko: # 横にはみ出したら
@@ -112,7 +117,6 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
-
 
 
 if __name__ == "__main__":
