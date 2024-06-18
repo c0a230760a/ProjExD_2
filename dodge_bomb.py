@@ -12,7 +12,7 @@ key_dct = {pg.K_UP:(0, -5),
            pg.K_RIGHT:(+5, 0)
            }
 
-#演習1
+# 演習1
 # 移動した大きさ:xの角度???
 kk_dct = {(0, -5): 90,
           (+5, -5): 45,
@@ -57,13 +57,13 @@ def main():
     enn_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     vx, vy = +5, +5
 
-#演習1
+# 演習1
     kk_img1 = pg.transform.flip(pg.image.load("fig/3.png"),True, False)
     kk_img1 = pg.transform.rotozoom(kk_img1, x, 2.0)
     kk_rct1 = kk_img1.get_rect()
     kk_rct1.center = 900, 400
 
-#演習3
+# 演習3
     big_r = pg.Surface((WIDTH,HEIGHT))
     pg.draw.rect(big_r, (0, 0, 0), pg.Rect(0, 0, WIDTH, HEIGHT))
     big_r.set_alpha(127)
@@ -85,7 +85,7 @@ def main():
                 return # もし×ボタン押されたらmainからでていく
             
         if kk_rct.colliderect(enn_rct): # こうかとんに爆弾が当たる
-            #演習3
+            # 演習3
             screen.blit(big_r ,big_rct)
             screen.blit(txt, txt_rct)
             screen.blit(kk_cry, kk_crct)
@@ -106,7 +106,7 @@ def main():
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)
-        #screen.blit(kk_img1, kk_rct1)
+        # screen.blit(kk_img1, kk_rct1)
         enn_rct.move_ip(vx, vy)
         yoko, tate = check_bound(enn_rct)
         if not yoko: # 横にはみ出したら
