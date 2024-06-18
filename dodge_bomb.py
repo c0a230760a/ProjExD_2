@@ -46,6 +46,8 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return # もし×ボタン押されたらmainからでていく
+        if kk_rct.colliderect(enn_rct): # こうかとんに爆弾が当たる
+            return # ゲームオーバー
         screen.blit(bg_img, [0, 0]) 
 
         key_lst = pg.key.get_pressed()
@@ -60,9 +62,9 @@ def main():
         screen.blit(kk_img, kk_rct)
         enn_rct.move_ip(vx, vy)
         yoko, tate = check_bound(enn_rct)
-        if not yoko:
+        if not yoko: # 横にはみ出したら
             vx*= -1
-        if not tate:
+        if not tate: # 縦にはみ出したら
             vy *= -1
         screen.blit(enn, enn_rct)
         pg.display.update()
