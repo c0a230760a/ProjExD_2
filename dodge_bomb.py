@@ -2,6 +2,7 @@ import os
 import random
 import sys
 import pygame as pg
+import time
 
 
 WIDTH, HEIGHT = 1600, 900
@@ -26,6 +27,23 @@ def check_bound(obj_rct:pg.Rect) -> tuple[bool, bool]: # boolはTrueFalseをあ�
         tate = False
     return yoko, tate
 
+"""
+def gameover():
+    screen = pg.display.set_mode((WIDTH, HEIGHT))
+    big_rct = pg.Surface((WIDTH,HEIGHT))
+    pg.draw.rect(big_rct, (0, 0, 0), WIDTH, HEIGHT)
+    big_rct.set_alpha(127)
+    gg = pg.font.Font(None, 100)
+    txt = gg.render("GAME OVER", True, (255, 255, 255))
+    kk_cry = pg.image.load("fig/8.png")
+    screen.blit(big_rct[0, 0])
+    screen.blit(txt, [WIDTH / 2, HEIGHT / 2])
+    screen.blit(kk_cry, [300, HEIGHT / 2])
+    screen.blit(kk_cry[1300, HEIGHT / 2])
+    if clock <= 5:
+        return
+    """
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -40,14 +58,38 @@ def main():
     enn_rct = enn.get_rect()
     enn_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     vx, vy = +5, +5
+#演習3
+    big_r = pg.Surface((WIDTH,HEIGHT))
+    pg.draw.rect(big_r, (0, 0, 0), pg.Rect(0, 0, WIDTH, HEIGHT))
+    big_r.set_alpha(127)
+    big_rct = big_r.get_rect()
+    big_rct.center = WIDTH / 2, HEIGHT / 2
+    gg = pg.font.Font(None, 100)
+    txt = gg.render("GAME OVER", True, (255, 255, 255))
+    txt_rct = txt.get_rect()
+    txt_rct.center = WIDTH / 2, HEIGHT / 2
+    kk_cry = pg.image.load("fig/8.png")
+    kk_crct = kk_cry.get_rect()
+    kk_crct.center = 300, HEIGHT / 2
+
     clock = pg.time.Clock()
     tmr = 0
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return # もし×ボタン押されたらmainからでていく
+            
         if kk_rct.colliderect(enn_rct): # こうかとんに爆弾が当たる
-            return # ゲームオーバー
+            #演習3
+            screen.blit(big_r ,big_rct)
+            screen.blit(txt, txt_rct)
+            screen.blit(kk_cry, kk_crct)
+            pg.display.update()
+            time.sleep(5)
+            return    
+            
+        
+            
         screen.blit(bg_img, [0, 0]) 
 
         key_lst = pg.key.get_pressed()
@@ -70,6 +112,7 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
+
 
 
 if __name__ == "__main__":
